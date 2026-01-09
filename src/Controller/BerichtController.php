@@ -639,11 +639,12 @@ class BerichtController extends BaseController
             'team' => $team,
         ]);
 
-        //Generate PDF File for Download
-        $response = $wrapper->getStreamResponse(
+        // Generate PDF File and output
+        return $wrapper->getStreamResponse(
             $html,
-            $this->translator->trans(id: 'technicalAndOrganizationMeasures', domain: 'audit_tom') . '.pdf');
-        $response->send();
+            $this->translator->trans(id: 'technicalAndOrganizationMeasures', domain: 'audit_tom') . '.pdf',
+            ['Attachment' => 0]
+        );
     }
 
     #[Route(path: '/vvt', name: '_vvt')]
