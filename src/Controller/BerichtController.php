@@ -614,7 +614,6 @@ class BerichtController extends BaseController
         SecurityService    $securityService,
     )
     {
-
         $req = $request->get('id');
         $team = $currentTeamService->getCurrentTeam($this->getUser());
 
@@ -632,12 +631,26 @@ class BerichtController extends BaseController
             return $this->redirectToRoute('dashboard');
         }
 
-        // Retrieve the HTML generated in our twig file
-        $html = $this->renderView('bericht/berichtTom.html.twig', [
-            'datenAll' => $tom,
-            'titel' => $this->translator->trans(id: 'tom.word', domain: 'bericht'),
-            'team' => $team,
-        ]);
+        $html = '';
+        foreach ($tom as $item) {
+            $v = 0;
+
+            $prev = $item->getPrevious();
+            while (null !== $prev) {
+                if (true === $prev->getApproved()) {
+                    $v++;
+                }
+
+                $prev = $prev->getPrevious();
+            }
+
+            $html .= $this->renderView('bericht/berichtTom.html.twig', [
+                'daten' => $item,
+                'titel' => $this->translator->trans(id: 'tom.word', domain: 'bericht'),
+                'team' => $team,
+                'version' => "1.$v"
+            ]);
+        }
 
         // Generate PDF File and output
         return $wrapper->getStreamResponse(

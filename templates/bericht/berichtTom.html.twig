@@ -2,7 +2,7 @@
 <style>
     /** Define the margins of your page **/
     @page {
-        margin: 90px 60px;
+        margin: 4.5cm 2cm 2.5cm 2.5cm;
     }
 
     header {
@@ -17,6 +17,11 @@
         line-height: 20px;
     }
 
+    ul {
+        padding: 0 0 0 .5rem;
+        margin: 0
+    }
+
     footer {
         position: fixed;
         bottom: -50px;
@@ -25,7 +30,7 @@
         height: 30px;
 
         /** Extra personal styles **/
-        text-align: center;
+        text-align: left;
         line-height: 20px;
     }
 
@@ -43,104 +48,107 @@
     }
 </style>
 <body>
-<header>
+{# <header>
     {% trans %}lawParagraph.technicalAndOrganizationalMeasures.title{% endtrans %} - {{ team.name }}
-</header>
+</header>#}
 
 <main>
     <div style="font-family: Helvetica">
-        <div style="margin-bottom: 70px">
+        <div style="margin-bottom: 50px">
             <h2 style="text-align: center">{% trans %}lawParagraph.technicalAndOrganizationalMeasures.title{% endtrans %}</h2>
-            <h5 style="text-align: center">{{ team.name }} - {{ team.strasse }} - {{ team.plz }} {{ team.stadt }} -
+            <h5 style="text-align: center">
+                {{ team.name }} - {{ team.strasse }} - {{ team.plz }} {{ team.stadt }}
+                <br />
                 {% trans from 'general' %}email{% endtrans %}: <a href="mailto:{{ team.email }}">{{ team.email }}</a> -
                 {% trans from 'general' %}phone{% endtrans %}: <a href="tel:{{ team.telefon }}">{{ team.telefon }}</a>
             </h5>
 
-            <p style="text-align: center">
+            {#<p style="text-align: center">
                 {% trans %}lawParagraph.technicalAndOrganizationalMeasures.excerpt{% endtrans %}
-            </p>
+            </p>#}
         </div>
 
-        {% for daten in datenAll %}
-            {% if not daten.activ %}
-                <h3>{% trans from 'general' %}history{% endtrans %}</h3>
-            {% endif %}
+        {% if not daten.activ %}
+            <h3>{% trans from 'general' %}history{% endtrans %}</h3>
+        {% endif %}
 
-            <h3>{% trans %}lawParagraph.pseudo.title{% endtrans %}</h3>
-            <p></p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomPseudo}) }}
+        <div style="margin-bottom: 40px">
+            {{ daten.beschreibung | raw }}
+        </div>
 
-            <h3>{% trans %}lawParagraph.confidentiality.title{% endtrans %}</h3>
-            <h4>{% trans %}lawParagraph.entryControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.entryControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZutrittskontrolle}) }}
+        <h3>{% trans %}lawParagraph.pseudo.title{% endtrans %}</h3>
+        <p></p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomPseudo}) }}
 
-            <h4>{% trans %}lawParagraph.entranceControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.entranceControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZugangskontrolle}) }}
+        <h3>{% trans %}lawParagraph.confidentiality.title{% endtrans %}</h3>
+        <h4>{% trans %}lawParagraph.entryControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.entryControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZutrittskontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.accessControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.accessControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZugriffskontrolle}) }}
+        <h4>{% trans %}lawParagraph.entranceControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.entranceControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZugangskontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.userControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.userControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomBenutzerkontrolle}) }}
+        <h4>{% trans %}lawParagraph.accessControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.accessControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZugriffskontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.saveControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.saveControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomSpeicherkontrolle}) }}
+        <h4>{% trans %}lawParagraph.userControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.userControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomBenutzerkontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.separability.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.separability.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomTrennbarkeit}) }}
+        <h4>{% trans %}lawParagraph.saveControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.saveControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomSpeicherkontrolle}) }}
 
-            <h3>{% trans %}lawParagraph.integrity.title{% endtrans %}</h3>
-            <h4>{% trans %}lawParagraph.dataIntegrity.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.dataIntegrity.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomDatenintegritaet}) }}
+        <h4>{% trans %}lawParagraph.separability.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.separability.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomTrennbarkeit}) }}
 
-            <h4>{% trans %}lawParagraph.transportControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.transportControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomtransportkontrolle}) }}
+        <h3>{% trans %}lawParagraph.integrity.title{% endtrans %}</h3>
+        <h4>{% trans %}lawParagraph.dataIntegrity.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.dataIntegrity.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomDatenintegritaet}) }}
 
-            <h4>{% trans %}lawParagraph.transmissionControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.transmissionControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomUebertragungskontrolle}) }}
+        <h4>{% trans %}lawParagraph.transportControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.transportControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomtransportkontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.inputControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.inputControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomEingabekontrolle}) }}
+        <h4>{% trans %}lawParagraph.transmissionControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.transmissionControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomUebertragungskontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.reliability.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.reliability.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZuverlaessigkeit}) }}
+        <h4>{% trans %}lawParagraph.inputControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.inputControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomEingabekontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.requestControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.requestControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomAuftragskontrolle}) }}
+        <h4>{% trans %}lawParagraph.reliability.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.reliability.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomZuverlaessigkeit}) }}
 
-            <h3>{% trans %}lawParagraph.availability.title{% endtrans %}</h3>
-            <h4>{% trans %}lawParagraph.availabilityControl.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.availabilityControl.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomVerfuegbarkeitskontrolle}) }}
+        <h4>{% trans %}lawParagraph.requestControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.requestControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomAuftragskontrolle}) }}
 
-            <h4>{% trans %}lawParagraph.recoverability.title{% endtrans %}</h4>
-            <p>{% trans %}lawParagraph.recoverability.excerpt{% endtrans %}:</p>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomWiederherstellbarkeit}) }}
+        <h3>{% trans %}lawParagraph.availability.title{% endtrans %}</h3>
+        <h4>{% trans %}lawParagraph.availabilityControl.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.availabilityControl.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomVerfuegbarkeitskontrolle}) }}
 
-            <h3>{% trans %}lawParagraph.evaluation.title{% endtrans %}</h3>
-            {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomAudit}) }}
+        <h4>{% trans %}lawParagraph.recoverability.title{% endtrans %}</h4>
+        <p>{% trans %}lawParagraph.recoverability.excerpt{% endtrans %}:</p>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomWiederherstellbarkeit}) }}
 
-
-            {{ daten.createdAt|date('d.m.Y H:i') }} by {{ daten.user.email }}
-        {% endfor %}
+        <h3>{% trans %}lawParagraph.evaluation.title{% endtrans %}</h3>
+        {{ include('bericht/__berichtTomItems.html.twig', {'item': daten.tomAudit}) }}
 
     </div>
 </main>
 
-
-{{ include('bericht/__berichtFooter.html.twig') }}
+<footer>
+    Version und Stand: {{ version }}, {{ daten.createdAt|date('d.m.Y') }}<br />
+    {% trans from 'general' %}createdAt{% endtrans %}: {{ "now"|date("d.m.Y") }}
+</footer>
 </body>
 
 

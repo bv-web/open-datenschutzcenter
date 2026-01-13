@@ -7,7 +7,7 @@
 
 {% block CTA %}
     {% if tom.activ %}
-        <a href="{{ path('bericht_tom', {'id':tom.id}) }}" class="btn">
+        <a href="{{ path('bericht_tom', {'id':tom.id}) }}" class="btn" target="_blank">
             {% trans from 'general' %}pdf.create{% endtrans %}
         </a>
         {% if isEditable %}
